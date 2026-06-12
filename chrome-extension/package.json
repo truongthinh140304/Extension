@@ -1,0 +1,24 @@
+{
+  "name": "@extension/chrome-extension",
+  "version": "0.1.0",
+  "description": "Chrome extension shell",
+  "type": "module",
+  "private": true,
+  "sideEffects": true,
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build --mode development --watch",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint .",
+    "clean:bundle": "rimraf ../dist",
+    "clean:node_modules": "rimraf node_modules",
+    "clean:turbo": "rimraf .turbo"
+  },
+  "dependencies": {
+    "@extension/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@extension/tsconfig": "workspace:*",
+    "vite": "^6.3.6"
+  }
+}

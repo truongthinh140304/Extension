@@ -1,0 +1,9 @@
+{
+  "extends": "../../packages/tsconfig/base.json",
+  "include": ["src", "build.mts"],
+  "compilerOptions": {
+    "paths": {
+      "@src/*": ["./src/*"]
+    }
+  }
+}

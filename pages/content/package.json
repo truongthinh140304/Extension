@@ -1,0 +1,26 @@
+{
+  "name": "@extension/content-script",
+  "version": "0.1.0",
+  "description": "monday.com content script",
+  "type": "module",
+  "private": true,
+  "sideEffects": true,
+  "scripts": {
+    "build": "tsx build.mts",
+    "dev": "tsx build.mts --watch",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint .",
+    "clean:bundle": "rimraf dist",
+    "clean:node_modules": "rimraf node_modules",
+    "clean:turbo": "rimraf .turbo"
+  },
+  "dependencies": {
+    "@extension/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@extension/tsconfig": "workspace:*",
+    "@extension/vite-config": "workspace:*",
+    "tsx": "^4.19.4",
+    "vite": "^6.3.6"
+  }
+}

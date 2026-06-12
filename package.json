@@ -1,0 +1,42 @@
+{
+  "name": "monday-board-assistant",
+  "version": "0.1.0",
+  "description": "Scan, summarize and analyze monday.com boards from a side panel.",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "clean:bundle": "rimraf dist && turbo clean:bundle",
+    "clean:node_modules": "rimraf node_modules && turbo clean:node_modules",
+    "clean:turbo": "rimraf .turbo && turbo clean:turbo",
+    "clean": "pnpm clean:bundle && pnpm clean:turbo",
+    "build": "pnpm clean:bundle && turbo build",
+    "dev": "pnpm clean:bundle && turbo watch dev",
+    "typecheck": "turbo type-check",
+    "type-check": "pnpm typecheck",
+    "lint": "turbo lint --continue"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "^5.0.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.27.0",
+    "@types/chrome": "^0.0.323",
+    "@types/node": "^22.15.21",
+    "@types/react": "^19.1.5",
+    "@types/react-dom": "^19.1.5",
+    "eslint": "^9.27.0",
+    "prettier": "^3.5.3",
+    "rimraf": "^6.0.1",
+    "tsx": "^4.19.4",
+    "turbo": "^2.5.3",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.6"
+  },
+  "packageManager": "pnpm@10.11.0",
+  "engines": {
+    "node": ">=22.15.1"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "ui": "tui",
+  "concurrency": "8",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["../../dist/**", "dist/**"],
+      "cache": false
+    },
+    "dev": {
+      "dependsOn": ["^build"],
+      "outputs": ["../../dist/**", "dist/**"],
+      "cache": false,
+      "persistent": true
+    },
+    "type-check": {
+      "dependsOn": ["^build"],
+      "cache": false
+    },
+    "lint": {
+      "cache": false
+    },
+    "clean:bundle": {
+      "dependsOn": ["^clean:bundle"],
+      "cache": false
+    },
+    "clean:node_modules": {
+      "dependsOn": ["^clean:node_modules"],
+      "cache": false
+    },
+    "clean:turbo": {
+      "dependsOn": ["^clean:turbo"],
+      "cache": false
+    }
+  }
+}

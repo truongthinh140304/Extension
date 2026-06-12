@@ -1,0 +1,28 @@
+{
+  "name": "@extension/side-panel",
+  "version": "0.1.0",
+  "description": "Monday Board Assistant side panel",
+  "type": "module",
+  "private": true,
+  "sideEffects": true,
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build --mode development --watch",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint .",
+    "clean:bundle": "rimraf dist",
+    "clean:node_modules": "rimraf node_modules",
+    "clean:turbo": "rimraf .turbo"
+  },
+  "dependencies": {
+    "@extension/shared": "workspace:*",
+    "@extension/storage": "workspace:*",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@extension/tsconfig": "workspace:*",
+    "@extension/vite-config": "workspace:*",
+    "vite": "^6.3.6"
+  }
+}

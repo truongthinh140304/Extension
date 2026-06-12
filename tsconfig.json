@@ -1,0 +1,12 @@
+{
+  "extends": "./packages/tsconfig/base.json",
+  "files": [],
+  "references": [
+    { "path": "./packages/shared" },
+    { "path": "./packages/storage" },
+    { "path": "./packages/vite-config" },
+    { "path": "./chrome-extension" },
+    { "path": "./pages/content" },
+    { "path": "./pages/side-panel" }
+  ]
+}

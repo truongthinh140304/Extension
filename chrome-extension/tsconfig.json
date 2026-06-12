@@ -1,0 +1,4 @@
+{
+  "extends": "../packages/tsconfig/base.json",
+  "include": ["manifest.ts", "src", "vite.config.mts"]
+}

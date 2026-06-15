@@ -1,11 +1,11 @@
 chrome.runtime.onInstalled.addListener(() => {
-  console.log('Monday Board Assistant installed and ready.');
+  console.log('Side Panel installed and ready.');
 });
 
 chrome.sidePanel
   .setPanelBehavior({ openPanelOnActionClick: true })
   .then(() => {
-    console.log('Monday Board Assistant side panel opens on action click.');
+    console.log('Side Panel opens on action click.');
   })
   .catch(error => {
     console.error('Failed to configure side panel behavior.', error);

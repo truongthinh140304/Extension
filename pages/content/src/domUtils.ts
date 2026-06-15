@@ -1,4 +1,5 @@
 const INVISIBLE_STYLE_SELECTOR = 'script, style, noscript, svg';
+const HIDDEN_ELEMENT_SELECTOR = '[hidden], [aria-hidden="true"], [inert]';
 
 export function normalizeText(value: string | null | undefined): string {
   return (value ?? '').replace(/\s+/g, ' ').trim();
@@ -23,10 +24,41 @@ export function uniqueTexts(values: Array<string | null | undefined>): string[] 
   return result;
 }
 
+function isTextNodeVisible(node: Node): boolean {
+  const parent = node.parentElement;
+
+  if (!parent || parent.closest(`${INVISIBLE_STYLE_SELECTOR}, ${HIDDEN_ELEMENT_SELECTOR}`)) {
+    return false;
+  }
+
+  let current: Element | null = parent;
+  while (current) {
+    const style = window.getComputedStyle(current);
+
+    if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') {
+      return false;
+    }
+
+    current = current.parentElement;
+  }
+
+  return true;
+}
+
 export function getVisibleText(element: Element): string {
-  const clone = element.cloneNode(true) as Element;
-  clone.querySelectorAll(INVISIBLE_STYLE_SELECTOR).forEach(node => node.remove());
-  return normalizeText(clone.textContent);
+  const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+  const texts: string[] = [];
+  let node = walker.nextNode();
+
+  while (node) {
+    if (isTextNodeVisible(node)) {
+      texts.push(node.textContent ?? '');
+    }
+
+    node = walker.nextNode();
+  }
+
+  return normalizeText(texts.join(' '));
 }
 
 export function isVisible(element: Element): boolean {
@@ -34,7 +66,14 @@ export function isVisible(element: Element): boolean {
   const rect = htmlElement.getBoundingClientRect();
   const style = window.getComputedStyle(htmlElement);
 
-  return rect.width > 0 && rect.height > 0 && style.visibility !== 'hidden' && style.display !== 'none';
+  return (
+    rect.width > 0 &&
+    rect.height > 0 &&
+    !htmlElement.closest(HIDDEN_ELEMENT_SELECTOR) &&
+    style.visibility !== 'hidden' &&
+    style.display !== 'none' &&
+    style.opacity !== '0'
+  );
 }
 
 export function queryVisible(selector: string, root: ParentNode = document): Element[] {

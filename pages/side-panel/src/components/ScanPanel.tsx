@@ -12,8 +12,9 @@ export function ScanPanel({ boardName, scannedAt, error, isScanning, onScan, onR
   return (
     <section className="toolbar-band">
       <div>
-        <h2>{boardName || 'No board scanned'}</h2>
-        <p>{scannedAt ? `Last scan: ${new Date(scannedAt).toLocaleString()}` : 'Scan the active monday.com board.'}</p>
+        <h2>Legacy board scan</h2>
+        <p>{boardName ? `Last board: ${boardName}` : 'Scan the active monday.com board.'}</p>
+        {scannedAt ? <p>{`Last scan: ${new Date(scannedAt).toLocaleString()}`}</p> : null}
         {error ? <p className="error-text">{error}</p> : null}
       </div>
       <div className="button-row">

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { MondayBoardScanResult } from '@extension/shared';
+import { BoardAutomationPanel } from './components/BoardAutomationPanel';
 import { Header } from './components/Header';
 import { ScanPanel } from './components/ScanPanel';
 import { StatsCards } from './components/StatsCards';
@@ -40,6 +41,7 @@ export default function App() {
   return (
     <main className="app-shell">
       <Header />
+      <BoardAutomationPanel />
       <ScanPanel boardName={scan?.boardName} scannedAt={scan?.scannedAt} error={error} isScanning={isScanning} onScan={runScan} onRefresh={runScan} onClear={clearData} />
       <StatsCards scan={scan} />
     </main>

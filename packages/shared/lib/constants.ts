@@ -1,4 +1,4 @@
-export const EXTENSION_NAME = 'Monday Board Assistant';
+export const EXTENSION_NAME = 'Side Panel';
 
 export const MONDAY_HOST_PATTERNS = ['https://*.monday.com/*', 'https://monday.com/*'] as const;
 

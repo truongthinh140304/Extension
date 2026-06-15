@@ -43,6 +43,14 @@ input {
   padding: 9px 10px;
 }
 
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  margin: 2px 0 0;
+  accent-color: #176b87;
+}
+
 .app-shell {
   display: flex;
   flex-direction: column;
@@ -62,13 +70,15 @@ input {
 }
 
 .toolbar-band p,
+.automation-panel p,
 .section-title span,
 .stat-card span {
   color: #5e6b78;
   font-size: 12px;
 }
 
-.toolbar-band {
+.toolbar-band,
+.automation-panel {
   border-top: 1px solid #dfe5ec;
   padding-top: 14px;
 }
@@ -79,7 +89,8 @@ input {
   font-size: 16px;
 }
 
-.toolbar-band p {
+.toolbar-band p,
+.automation-panel p {
   margin: 4px 0 0;
 }
 
@@ -141,4 +152,68 @@ input {
   justify-content: space-between;
   gap: 8px;
   margin-bottom: 10px;
+}
+
+.section-title > div {
+  min-width: 0;
+}
+
+.section-title button {
+  flex: 0 0 auto;
+}
+
+.workspace-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.workspace-group h3 {
+  margin: 0 0 7px;
+  color: #394653;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.board-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.board-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  border: 1px solid #dce3ea;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.board-row-main {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.board-name {
+  overflow-wrap: anywhere;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.board-meta {
+  color: #5e6b78;
+  font-size: 12px;
+}
+
+.empty-state {
+  border: 1px dashed #c8d1dc;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 12px;
 }

@@ -34,6 +34,10 @@ const GROUP_SELECTORS = [
   'h3',
 ];
 
+const PLACEHOLDER_TEXT_RE = /^\+?\s*add item$/i;
+const TABLE_HEADER_RE = /\bitem\b.*\b(status|owner|person|priority|date)\b/i;
+const CONTROL_TEXT_RE = /\b(search|filter|sort|hide|group by|new item|invite|automate|integrate)\b/i;
+
 function detectStatus(text: string): string | undefined {
   const lowered = normalizeText(text).toLocaleLowerCase();
   return KNOWN_STATUSES.find(status => lowered.includes(status.toLocaleLowerCase()));
@@ -121,10 +125,40 @@ function extractItemName(row: Element, rawText: string): string {
   return rawText.split(/\s{2,}| - | \| /)[0]?.trim() || rawText.slice(0, 80) || 'Untitled item';
 }
 
+function hasItemSignal(row: Element, rawText: string): boolean {
+  return Boolean(
+    extractIdFromElement(row) ||
+      detectStatus(rawText) ||
+      row.querySelector('input[type="checkbox"], [role="checkbox"]') ||
+      row.querySelector('a[href*="/pulses/"], a[href*="/items/"]') ||
+      row.querySelector('[role="gridcell"], [role="cell"], [data-testid*="cell" i]'),
+  );
+}
+
+function isPlaceholderOrHeader(row: Element, rawText: string): boolean {
+  if (row.matches('[role="heading"], h1, h2, h3')) {
+    return true;
+  }
+
+  if (PLACEHOLDER_TEXT_RE.test(rawText)) {
+    return true;
+  }
+
+  if (CONTROL_TEXT_RE.test(rawText) && !detectStatus(rawText) && !extractIdFromElement(row)) {
+    return true;
+  }
+
+  return TABLE_HEADER_RE.test(rawText) && !extractIdFromElement(row);
+}
+
 function elementToItem(row: Element): MondayItem | undefined {
   const rawText = getVisibleText(row);
 
   if (!rawText || rawText.length < 2) {
+    return undefined;
+  }
+
+  if (!hasItemSignal(row, rawText) || isPlaceholderOrHeader(row, rawText)) {
     return undefined;
   }
 

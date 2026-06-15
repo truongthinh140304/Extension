@@ -1,4 +1,4 @@
-# Monday Board Assistant
+# Side Panel
 
 Chrome Extension MV3 for scanning the current monday.com board into a side panel and showing board statistics.
 

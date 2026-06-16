@@ -1,8 +1,8 @@
 # Side Panel
 
-Chrome Extension MV3 for scanning the current monday.com board into a side panel and showing board statistics.
+Chrome Extension MV3 dùng để scan board monday.com hiện tại vào side panel và hiển thị thống kê của board.
 
-## Install
+## Cài đặt
 
 ```bash
 pnpm install
@@ -14,32 +14,32 @@ pnpm install
 pnpm build
 ```
 
-The extension output is generated in `dist`.
+Output của extension sẽ được tạo trong thư mục `dist`.
 
-## Load In Chrome Or Edge
+## Load vào Chrome hoặc Edge
 
-1. Open `chrome://extensions` or `edge://extensions`.
-2. Enable Developer mode.
-3. Click Load unpacked.
-4. Select the `dist` folder.
+1. Mở `chrome://extensions` hoặc `edge://extensions`.
+2. Bật Developer mode.
+3. Bấm Load unpacked.
+4. Chọn thư mục `dist`.
 
-## Test On monday.com
+## Kiểm thử trên monday.com
 
-1. Open a monday.com board.
-2. Reload the board once after installing the extension so the content script is present.
-3. Click the extension icon. Chrome opens the side panel.
-4. Click Scan current board.
+1. Mở một board trên monday.com.
+2. Reload board một lần sau khi cài extension để content script được inject vào trang.
+3. Bấm icon extension. Chrome sẽ mở side panel.
+4. Bấm Scan current board.
 
 ## Side Panel
 
-The side panel shows connection status, scan actions, and board statistics.
+Side panel hiển thị trạng thái kết nối, các thao tác scan và thống kê của board.
 
-The scan result is stored in `chrome.storage.local` so the most recent statistics can be restored when the side panel opens again. Board data is processed locally in your browser and is not sent to an external service.
+Kết quả scan được lưu trong `chrome.storage.local`, nhờ đó thống kê gần nhất có thể được khôi phục khi side panel được mở lại. Dữ liệu board được xử lý cục bộ trong trình duyệt của bạn và không được gửi tới dịch vụ bên ngoài.
 
-## DOM Scraping Limits
+## Giới hạn của DOM scraping
 
-monday.com is a complex web app and can change DOM structure at any time. The scraper avoids hashed class names and prefers roles, aria labels, data attributes, links, and visible text, but it may still miss hidden rows, virtualized rows, custom columns, or layouts that are not rendered on screen.
+monday.com là một web app phức tạp và có thể thay đổi cấu trúc DOM bất kỳ lúc nào. Scraper tránh phụ thuộc vào các class name dạng hash, ưu tiên dùng role, aria label, data attribute, link và text đang hiển thị, nhưng vẫn có thể bỏ sót các row bị ẩn, row được virtualize, custom column hoặc layout không được render trên màn hình.
 
-## When To Use monday API
+## Khi nào nên dùng monday API
 
-Use the official monday GraphQL API when you need reliable full-board data, hidden rows, all columns, automations, pagination, or production-grade reporting. This extension does not read tokens/cookies/session data from monday.com.
+Hãy dùng monday GraphQL API chính thức khi bạn cần dữ liệu toàn board một cách đáng tin cậy, bao gồm row bị ẩn, tất cả column, automation, phân trang hoặc báo cáo dùng cho production. Extension này không đọc token/cookie/session data từ monday.com.

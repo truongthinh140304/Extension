@@ -17,8 +17,6 @@ function emptyBoard(boardId: string): PendingBoardAutomation {
   return {
     boardId,
     pendingItems: {},
-    nextBatchItems: {},
-    isProcessing: false,
     updatedAt: now(),
   };
 }
@@ -40,7 +38,7 @@ function isPendingItem(value: unknown): value is PendingAutomationItem {
     typeof value.statusIndex === 'string' &&
     typeof value.statusName === 'string' &&
     typeof value.updatedAt === 'string' &&
-    (value.state === 'ready' || value.state === 'needs_mapping' || value.state === 'failed')
+    (value.state === 'needs_mapping' || value.state === 'failed')
   );
 }
 
@@ -77,8 +75,6 @@ function sanitizeStore(value: unknown): PendingAutomationStore {
     boardsById[boardId] = {
       boardId,
       pendingItems: sanitizeItems(board.pendingItems),
-      nextBatchItems: sanitizeItems(board.nextBatchItems),
-      isProcessing: board.isProcessing === true,
       updatedAt: typeof board.updatedAt === 'string' ? board.updatedAt : now(),
     };
   }
@@ -138,17 +134,13 @@ export async function getPendingBoardAutomation(boardId: string): Promise<Pendin
 
 export function countBoardAutomation(board: PendingBoardAutomation): {
   pendingCount: number;
-  readyCount: number;
   needsMappingCount: number;
   failedCount: number;
-  nextBatchCount: number;
 } {
   const pendingItems = Object.values(board.pendingItems);
   return {
     pendingCount: pendingItems.length,
-    readyCount: pendingItems.filter(item => item.state === 'ready').length,
     needsMappingCount: pendingItems.filter(item => item.state === 'needs_mapping').length,
     failedCount: pendingItems.filter(item => item.state === 'failed').length,
-    nextBatchCount: Object.keys(board.nextBatchItems).length,
   };
 }

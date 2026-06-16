@@ -1,6 +1,6 @@
 import { MESSAGE_TYPES, type ScanResponse } from '@extension/shared';
 import { getAutomationSettings } from './automationSettingsStorage';
-import { addStatusChangeToPendingAutomation, initializeBatchAutomationController } from './batchAutomationController';
+import { handleStatusChangeAutoMove, initializeAutoAutomationController } from './autoAutomationController';
 import { parseBoardData, parseLeftPaneWorkspaceData } from './boardCatalogParser';
 import { getBoardCatalog, mergeBoardDetails, mergeWorkspaceData } from './boardCatalogStorage';
 import { scanMondayBoard } from './mondayScraper';
@@ -122,7 +122,7 @@ async function handleStatusChangeNetworkEvent(message: MondayNetworkEventMessage
     groupMatchCount,
   });
 
-  await addStatusChangeToPendingAutomation({
+  await handleStatusChangeAutoMove({
     statusChange,
     catalog,
     boardDetails,
@@ -155,7 +155,7 @@ window.addEventListener('message', event => {
   });
 });
 
-initializeBatchAutomationController();
+initializeAutoAutomationController();
 
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse: (response: ScanResponse) => void) => {
   if (message?.type !== MESSAGE_TYPES.MONDAY_SCAN_BOARD) {

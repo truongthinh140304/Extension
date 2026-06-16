@@ -96,3 +96,23 @@ export async function saveStatusGroupMapping(mapping: Omit<StatusGroupMapping, '
     return null;
   }
 }
+
+export async function removeStatusGroupMapping(boardId: string, columnId: string, statusIndex: string): Promise<void> {
+  const store = await getMappingStore();
+  const key = mappingKey(boardId, columnId, statusIndex);
+  if (!store.mappingsByKey[key]) {
+    return;
+  }
+
+  const nextMappings = { ...store.mappingsByKey };
+  delete nextMappings[key];
+
+  try {
+    await saveMappingStore({
+      mappingsByKey: nextMappings,
+      updatedAt: now(),
+    });
+  } catch {
+    console.warn('Unable to remove monday status group mapping.');
+  }
+}

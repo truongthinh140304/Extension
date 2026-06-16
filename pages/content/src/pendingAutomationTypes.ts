@@ -1,4 +1,4 @@
-export type PendingAutomationState = 'ready' | 'needs_mapping' | 'failed';
+export type PendingAutomationState = 'needs_mapping' | 'failed';
 
 export type PendingAutomationItem = {
   boardId: string;
@@ -17,8 +17,6 @@ export type PendingAutomationItem = {
 export type PendingBoardAutomation = {
   boardId: string;
   pendingItems: Record<string, PendingAutomationItem>;
-  nextBatchItems: Record<string, PendingAutomationItem>;
-  isProcessing: boolean;
   updatedAt: string;
 };
 

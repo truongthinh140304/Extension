@@ -2,8 +2,8 @@ const manifest = {
   manifest_version: 3,
   name: 'SIDE PANEL',
   version: '0.1.0',
-  description: 'Scan, summarize and analyze monday.com boards from a side panel.',
-  permissions: ['sidePanel', 'storage', 'tabs', 'activeTab', 'scripting'],
+  description: 'Automatically move monday.com items to groups based on Status changes.',
+  permissions: ['sidePanel', 'storage'],
   host_permissions: ['https://*.monday.com/*', 'https://monday.com/*'],
   background: {
     service_worker: 'background.js',

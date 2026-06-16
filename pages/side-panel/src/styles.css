@@ -69,81 +69,24 @@ input[type="checkbox"] {
   line-height: 1.15;
 }
 
-.toolbar-band p,
 .automation-panel p,
-.section-title span,
-.stat-card span {
+.section-title span {
   color: #5e6b78;
   font-size: 12px;
 }
 
-.toolbar-band,
 .automation-panel {
   border-top: 1px solid #dfe5ec;
   padding-top: 14px;
 }
 
-.toolbar-band h2,
 .section-title h2 {
   margin: 0;
   font-size: 16px;
 }
 
-.toolbar-band p,
 .automation-panel p {
   margin: 4px 0 0;
-}
-
-.button-row {
-  display: flex;
-  gap: 8px;
-  margin-top: 12px;
-  flex-wrap: wrap;
-}
-
-.primary-button {
-  border-color: #176b87;
-  background: #176b87;
-  color: #ffffff;
-}
-
-.danger-button {
-  border-color: #d5a7a0;
-  color: #8d2f22;
-}
-
-.error-text {
-  color: #a63225;
-}
-
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
-}
-
-.stat-card {
-  border: 1px solid #dce3ea;
-  border-radius: 8px;
-  background: #ffffff;
-  padding: 10px;
-}
-
-.stat-card strong {
-  display: block;
-  margin-top: 5px;
-  font-size: 20px;
-}
-
-.stat-card.wide {
-  grid-column: 1 / -1;
-}
-
-.status-list p {
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
-  margin: 6px 0 0;
 }
 
 .section-title {

@@ -6,7 +6,7 @@ import type {
   MondayStatusLabel,
   MondayWorkspaceData,
   MondayWorkspaceSummary,
-} from './boardCatalogTypes';
+} from '@extension/shared';
 
 type PlainObject = Record<string, unknown>;
 type BoardEnvelope = {

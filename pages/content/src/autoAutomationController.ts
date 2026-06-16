@@ -468,6 +468,7 @@ async function showFailedItems(boardId: string): Promise<void> {
 }
 
 async function migrateLegacyPendingStorage(boardId: string): Promise<void> {
+  // Temporary cleanup for users who had old batch pending storage.
   await updatePendingBoardAutomation(boardId, board => board);
 }
 

@@ -1,9 +1,7 @@
-import { MESSAGE_TYPES, type ScanResponse } from '@extension/shared';
 import { getAutomationSettings } from './automationSettingsStorage';
 import { handleStatusChangeAutoMove, initializeAutoAutomationController } from './autoAutomationController';
 import { parseBoardData, parseLeftPaneWorkspaceData } from './boardCatalogParser';
 import { getBoardCatalog, mergeBoardDetails, mergeWorkspaceData } from './boardCatalogStorage';
-import { scanMondayBoard } from './mondayScraper';
 import type { MondayNetworkEventMessage } from './networkTypes';
 import { parseStatusChangeEvent } from './statusChangeParser';
 
@@ -156,25 +154,5 @@ window.addEventListener('message', event => {
 });
 
 initializeAutoAutomationController();
-
-chrome.runtime.onMessage.addListener((message, _sender, sendResponse: (response: ScanResponse) => void) => {
-  if (message?.type !== MESSAGE_TYPES.MONDAY_SCAN_BOARD) {
-    return false;
-  }
-
-  try {
-    sendResponse({
-      ok: true,
-      data: scanMondayBoard(),
-    });
-  } catch (error) {
-    sendResponse({
-      ok: false,
-      error: error instanceof Error ? error.message : 'Unable to scan monday.com board.',
-    });
-  }
-
-  return true;
-});
 
 console.log('Side Panel content script ready.');

@@ -1,4 +1,4 @@
-import type { MondayBoardCatalog, MondayBoardDetails, MondayWorkspaceData } from './boardCatalogTypes';
+import type { MondayBoardCatalog, MondayBoardDetails, MondayWorkspaceData } from '@extension/shared';
 
 export const MONDAY_BOARD_CATALOG_STORAGE_KEY = 'mondayBoardCatalogV1';
 

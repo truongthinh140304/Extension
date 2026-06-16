@@ -1,8 +1,10 @@
-# Side Panel
+# Monday Board Assistant
 
-Chrome Extension MV3 dùng để scan board monday.com hiện tại vào side panel và hiển thị thống kê của board.
+Monday Board Assistant is a Chrome/Edge MV3 extension that watches monday.com Status changes and automatically moves items to matching groups using the current logged-in browser session.
 
-## Cài đặt
+It does not store cookies, auth headers, or CSRF tokens in extension storage. The CSRF token is kept only in page memory when needed for move requests.
+
+## Install
 
 ```bash
 pnpm install
@@ -14,32 +16,35 @@ pnpm install
 pnpm build
 ```
 
-Output của extension sẽ được tạo trong thư mục `dist`.
+The extension output is generated in `dist`.
 
-## Load vào Chrome hoặc Edge
+## Load In Chrome Or Edge
 
-1. Mở `chrome://extensions` hoặc `edge://extensions`.
-2. Bật Developer mode.
-3. Bấm Load unpacked.
-4. Chọn thư mục `dist`.
+1. Open `chrome://extensions` or `edge://extensions`.
+2. Enable Developer mode.
+3. Click Load unpacked.
+4. Select the `dist` folder.
 
-## Kiểm thử trên monday.com
+## Test On monday.com
 
-1. Mở một board trên monday.com.
-2. Reload board một lần sau khi cài extension để content script được inject vào trang.
-3. Bấm icon extension. Chrome sẽ mở side panel.
-4. Bấm Scan current board.
+1. Run `pnpm install`.
+2. Run `pnpm build`.
+3. Load `dist` in Chrome or Edge.
+4. Open a monday.com board.
+5. Reload the board once so the content scripts are present.
+6. Open the extension side panel.
+7. Enable automation for the board.
+8. Change an item's Status.
+9. The item moves automatically to the matching group.
 
 ## Side Panel
 
-Side panel hiển thị trạng thái kết nối, các thao tác scan và thống kê của board.
+The side panel shows boards discovered from monday.com network data and lets you enable or disable automation per board.
 
-Kết quả scan được lưu trong `chrome.storage.local`, nhờ đó thống kê gần nhất có thể được khôi phục khi side panel được mở lại. Dữ liệu board được xử lý cục bộ trong trình duyệt của bạn và không được gửi tới dịch vụ bên ngoài.
+Board catalog data and automation settings are stored in `chrome.storage.local`. Pending mapping and failed move state are kept only for the automation workflow.
 
-## Giới hạn của DOM scraping
+## Limits
 
-monday.com là một web app phức tạp và có thể thay đổi cấu trúc DOM bất kỳ lúc nào. Scraper tránh phụ thuộc vào các class name dạng hash, ưu tiên dùng role, aria label, data attribute, link và text đang hiển thị, nhưng vẫn có thể bỏ sót các row bị ẩn, row được virtualize, custom column hoặc layout không được render trên màn hình.
+monday.com is a complex web app and can change network payloads or DOM structure at any time. The extension depends on board, group, and Status data loaded by the current monday.com page, so the catalog may require a board reload or hard reload after board structure changes.
 
-## Khi nào nên dùng monday API
-
-Hãy dùng monday GraphQL API chính thức khi bạn cần dữ liệu toàn board một cách đáng tin cậy, bao gồm row bị ẩn, tất cả column, automation, phân trang hoặc báo cáo dùng cho production. Extension này không đọc token/cookie/session data từ monday.com.
+Use the official monday GraphQL API when you need reliable full-board data, hidden rows, all columns, pagination, or production-grade reporting.

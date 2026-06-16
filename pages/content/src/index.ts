@@ -1,11 +1,11 @@
 import { MESSAGE_TYPES, type ScanResponse } from '@extension/shared';
 import { getAutomationSettings } from './automationSettingsStorage';
+import { addStatusChangeToPendingAutomation, initializeBatchAutomationController } from './batchAutomationController';
 import { parseBoardData, parseLeftPaneWorkspaceData } from './boardCatalogParser';
 import { getBoardCatalog, mergeBoardDetails, mergeWorkspaceData } from './boardCatalogStorage';
-import { enqueueConfirmationRequest } from './confirmationQueue';
 import { scanMondayBoard } from './mondayScraper';
 import type { MondayNetworkEventMessage } from './networkTypes';
-import { parseStatusChangeEvent, type MondayStatusChangeEvent } from './statusChangeParser';
+import { parseStatusChangeEvent } from './statusChangeParser';
 
 const BOARD_DATA_PATH_RE = /^\/boards\/([^/]+)\/board_data$/;
 
@@ -111,7 +111,7 @@ async function handleStatusChangeNetworkEvent(message: MondayNetworkEventMessage
   }
 
   const normalizedStatusName = normalizeName(statusLabel.name);
-  const matchedGroups = boardDetails.groups.filter(group => normalizeName(group.title) === normalizedStatusName);
+  const groupMatchCount = boardDetails.groups.filter(group => normalizeName(group.title) === normalizedStatusName).length;
 
   console.log('Monday status change detected', {
     boardId: statusChange.boardId,
@@ -119,41 +119,15 @@ async function handleStatusChangeNetworkEvent(message: MondayNetworkEventMessage
     columnId: statusChange.columnId,
     statusIndex: statusChange.statusIndex,
     statusName: statusLabel.name,
-    groupMatchCount: matchedGroups.length,
+    groupMatchCount,
   });
 
-  enqueueConfirmationRequest(toConfirmationRequest(statusChange, statusLabel.name, matchedGroups));
-}
-
-function toConfirmationRequest(
-  statusChange: MondayStatusChangeEvent,
-  statusName: string,
-  matchedGroups: Array<{ id: string; title: string }>,
-) {
-  const baseRequest = {
-    id: [statusChange.boardId, [...statusChange.itemIds].sort().join(','), statusChange.columnId, statusChange.statusIndex, statusChange.occurredAt].join('|'),
-    boardId: statusChange.boardId,
-    itemIds: statusChange.itemIds,
-    columnId: statusChange.columnId,
-    statusIndex: statusChange.statusIndex,
-    statusName,
-  };
-
-  if (matchedGroups.length === 1) {
-    return {
-      ...baseRequest,
-      targetGroupId: matchedGroups[0].id,
-      targetGroupTitle: matchedGroups[0].title,
-    };
-  }
-
-  return {
-    ...baseRequest,
-    message:
-      matchedGroups.length === 0
-        ? `Không tìm thấy group phù hợp với Status '${statusName}'.`
-        : `Có nhiều group tên '${statusName}'. Hãy cấu hình group đích trong Side Panel.`,
-  };
+  await addStatusChangeToPendingAutomation({
+    statusChange,
+    catalog,
+    boardDetails,
+    statusName: statusLabel.name,
+  });
 }
 
 window.addEventListener('message', event => {
@@ -180,6 +154,8 @@ window.addEventListener('message', event => {
     console.warn('Unable to handle monday status change.');
   });
 });
+
+initializeBatchAutomationController();
 
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse: (response: ScanResponse) => void) => {
   if (message?.type !== MESSAGE_TYPES.MONDAY_SCAN_BOARD) {

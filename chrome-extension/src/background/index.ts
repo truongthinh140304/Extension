@@ -2,6 +2,16 @@ chrome.runtime.onInstalled.addListener(() => {
   console.log('Side Panel installed and ready.');
 });
 
+function exposeSessionStorageToContentScripts(): void {
+  chrome.storage.session
+    ?.setAccessLevel?.({ accessLevel: 'TRUSTED_AND_UNTRUSTED_CONTEXTS' })
+    .catch(() => {
+      console.warn('Unable to expose session storage to content scripts.');
+    });
+}
+
+exposeSessionStorageToContentScripts();
+
 chrome.sidePanel
   .setPanelBehavior({ openPanelOnActionClick: true })
   .then(() => {

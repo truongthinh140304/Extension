@@ -1,5 +1,5 @@
 import type { MondayBoardDetails } from '@extension/shared';
-import type { PendingAutomationItem } from './pendingAutomationTypes';
+import type { PendingAutomationItem } from '../types/pendingAutomationTypes';
 
 type NotificationAction = {
   label: string;

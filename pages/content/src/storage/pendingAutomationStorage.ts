@@ -1,4 +1,4 @@
-import type { PendingAutomationItem, PendingAutomationStore, PendingBoardAutomation } from './pendingAutomationTypes';
+import type { PendingAutomationItem, PendingAutomationStore, PendingBoardAutomation } from '../types/pendingAutomationTypes';
 
 export const PENDING_AUTOMATION_STORAGE_KEY = 'mondayPendingAutomationV1';
 

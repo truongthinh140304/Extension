@@ -7,7 +7,7 @@ import type {
   MondayMoveItemsResultMessage,
   MondayNetworkEventMessage,
   MondayNetworkEventPayload,
-} from './networkTypes';
+} from './types/networkTypes';
 
 const MESSAGE_SOURCE = 'MONDAY_BOARD_ASSISTANT' as const;
 const MESSAGE_TYPE = 'MONDAY_NETWORK_EVENT' as const;

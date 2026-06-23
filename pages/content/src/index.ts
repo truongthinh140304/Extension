@@ -1,9 +1,9 @@
-import { getAutomationSettings } from './automationSettingsStorage';
-import { handleStatusChangeAutoMove, initializeAutoAutomationController } from './autoAutomationController';
-import { parseBoardData, parseLeftPaneWorkspaceData } from './boardCatalogParser';
-import { getBoardCatalog, mergeBoardDetails, mergeWorkspaceData } from './boardCatalogStorage';
-import type { MondayNetworkEventMessage } from './networkTypes';
-import { parseStatusChangeEvent } from './statusChangeParser';
+import { handleStatusChangeAutoMove, initializeAutoAutomationController } from './automation/autoAutomationController';
+import { parseBoardData, parseLeftPaneWorkspaceData } from './parsers/boardCatalogParser';
+import { parseStatusChangeEvent } from './parsers/statusChangeParser';
+import { getAutomationSettings } from './storage/automationSettingsStorage';
+import { getBoardCatalog, mergeBoardDetails, mergeWorkspaceData } from './storage/boardCatalogStorage';
+import type { MondayNetworkEventMessage } from './types/networkTypes';
 
 const BOARD_DATA_PATH_RE = /^\/boards\/([^/]+)\/board_data$/;
 

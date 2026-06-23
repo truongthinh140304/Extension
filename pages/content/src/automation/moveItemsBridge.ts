@@ -1,4 +1,4 @@
-import type { MondayMoveItemFailure, MondayMoveItemsRequestMessage, MondayMoveItemsResultMessage, MondayMoveItemsResultPayload } from './networkTypes';
+import type { MondayMoveItemFailure, MondayMoveItemsRequestMessage, MondayMoveItemsResultMessage, MondayMoveItemsResultPayload } from '../types/networkTypes';
 
 const MESSAGE_SOURCE = 'MONDAY_BOARD_ASSISTANT' as const;
 const MOVE_REQUEST_TIMEOUT_MS = 30_000;

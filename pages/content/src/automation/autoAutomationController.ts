@@ -4,22 +4,22 @@ import {
   showFailedNotification,
   showMappingNotification,
 } from './automationNotification';
-import { getBoardCatalog } from './boardCatalogStorage';
 import { requestMoveItems } from './moveItemsBridge';
-import { resolveMondayItemCurrentGroupWithRetry } from './mondayItemGroupResolver';
-import { resolveMondayItemName } from './mondayItemNameResolver';
+import type { MondayStatusChangeEvent } from '../parsers/statusChangeParser';
+import { resolveMondayItemCurrentGroupWithRetry } from '../resolvers/mondayItemGroupResolver';
+import { resolveMondayItemName } from '../resolvers/mondayItemNameResolver';
+import { getBoardCatalog } from '../storage/boardCatalogStorage';
 import {
   countBoardAutomation,
   getPendingBoardAutomation,
   updatePendingBoardAutomation,
-} from './pendingAutomationStorage';
-import type { PendingAutomationItem, PendingBoardAutomation } from './pendingAutomationTypes';
+} from '../storage/pendingAutomationStorage';
 import {
   getStatusGroupMapping,
   removeStatusGroupMapping,
   saveStatusGroupMapping,
-} from './statusGroupMappingStorage';
-import type { MondayStatusChangeEvent } from './statusChangeParser';
+} from '../storage/statusGroupMappingStorage';
+import type { PendingAutomationItem, PendingBoardAutomation } from '../types/pendingAutomationTypes';
 
 type GroupTarget = {
   groupId: string;
@@ -30,13 +30,13 @@ type MappingReason = 'missing_mapping' | 'duplicate_groups' | 'stale_mapping';
 
 type TargetResolution =
   | {
-      kind: 'target';
-      target: GroupTarget;
-    }
+    kind: 'target';
+    target: GroupTarget;
+  }
   | {
-      kind: 'needs_mapping';
-      reason: MappingReason;
-    };
+    kind: 'needs_mapping';
+    reason: MappingReason;
+  };
 
 type AddStatusChangeInput = {
   statusChange: MondayStatusChangeEvent;
@@ -51,7 +51,7 @@ type ScheduledMove = {
   target: GroupTarget;
 };
 
-const AUTO_MOVE_DEBOUNCE_MS = 300;
+const AUTO_MOVE_DEBOUNCE_MS = 50;
 const pendingMoveTimers = new Map<string, number>();
 const latestMoves = new Map<string, ScheduledMove>();
 const inFlightMoves = new Set<string>();
@@ -342,20 +342,8 @@ export async function handleStatusChangeAutoMove(input: AddStatusChangeInput): P
     return;
   }
 
-  const skippedItemIds = new Set<string>();
   for (const itemId of input.statusChange.itemIds) {
-    if (await isItemAlreadyInTargetGroup(input.statusChange.boardId, itemId, resolution.target.groupId, input.catalog)) {
-      cancelScheduledMove(input.statusChange.boardId, itemId);
-      skippedItemIds.add(itemId);
-      logAlreadyInTargetGroup(input.statusChange.boardId, itemId, resolution.target.groupId);
-      continue;
-    }
-
     scheduleAutoMove(input, itemId, resolution.target);
-  }
-
-  if (skippedItemIds.size > 0) {
-    await removePendingItems(input.statusChange.boardId, skippedItemIds);
   }
 }
 

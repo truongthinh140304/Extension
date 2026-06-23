@@ -1,4 +1,4 @@
-import type { StatusGroupMapping, StatusGroupMappingStore } from './pendingAutomationTypes';
+import type { StatusGroupMapping, StatusGroupMappingStore } from '../types/pendingAutomationTypes';
 
 export const STATUS_GROUP_MAPPING_STORAGE_KEY = 'mondayStatusGroupMappingsV1';
 

@@ -1,4 +1,4 @@
-import type { JsonValue } from './networkTypes';
+import type { JsonValue } from '../types/networkTypes';
 
 export type MondayStatusChangeEvent = {
   boardId: string;
